@@ -13,31 +13,30 @@ When a user loans - print the return date
 If the user is late - print: “YOU ARE LATE. The fine is 50 shekel”
 """
 
-from datetime import timedelta
+from datetime import timedelta, date
 
 
 class Book:
     def __init__(self, name, author):
         self.name = name
         self.author = author
+        self.user = None
+        self.loan_date = date.today()
 
     def __str__(self):
         return f"Book:{self.name}- Author:{self.author}"
 
-    def loan_book(self, user, loan_date):
+    def loan_book(self, user):
         self.user = user
-        self.loan_date = loan_date
-        self.return_date = loan_date + timedelta(days=10)
         print(
-            f"The book '{self.name}' is borrowed by {self.user.name}. Date to return: {self.return_date}"
+            f"The book '{self.name}' is borrowed by {self.user.name}. Date: {self.loan_date}"
         )
 
-    def return_book(self, return_date):
-        if return_date > self.return_date:
+    def return_book(self):
+        return_date = date.today()
+        if return_date > self.loan_date + timedelta(days=10):
             print(f"{self.name}- YOU ARE LATE. The fine is 50 shekel")
         else:
             print(f"{self.name}-Book returned on time. Thank you!")
-        # Clear the loan details
         self.user = None
         self.loan_date = None
-        self.return_date = None
